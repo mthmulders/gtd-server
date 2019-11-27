@@ -14,6 +14,28 @@
 	<name>gtd-server</name>
 	<description>Demo project for Spring Boot</description>
 
+	<scm>
+		<connection>scm:git:https://github.com/mthmulders/gtd-server</connection>
+		<developerConnection>scm:git:git://github.com/mthmulders/gtd-server</developerConnection>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub issues</system>
+		<url>https://github.com/mthmulders/gtd-server/issues</url>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://choosealicense.com/licenses/mit/</url>
+			<distribution>manual</distribution>
+			<comments>
+				A short and simple permissive license with conditions only requiring
+				preservation of copyright and license notices.
+			</comments>
+		</license>
+	</licenses>
+
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
