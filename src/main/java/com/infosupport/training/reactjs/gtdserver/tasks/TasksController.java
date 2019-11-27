@@ -1,4 +1,4 @@
-package com.infosupport.training.reactjs.gtdserver;
+package com.infosupport.training.reactjs.gtdserver.tasks;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

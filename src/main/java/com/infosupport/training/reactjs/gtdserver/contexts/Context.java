@@ -1,4 +1,4 @@
-package com.infosupport.training.reactjs.gtdserver;
+package com.infosupport.training.reactjs.gtdserver.contexts;
 
 import lombok.Builder;
 import lombok.Getter;
