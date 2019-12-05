@@ -13,9 +13,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RequestMapping("/api")
 public class TasksController {
     private static Collection<Task> DATA = Arrays.asList(
-            Task.builder().id(0).text("Learn React at Info Support").context_id(0).build(),
-            Task.builder().id(1).text("Build my first React app").context_id(1).build(),
-            Task.builder().id(2).text("Buy milk").context_id(3).build()
+            Task.builder().id(0).text("Learn React at Info Support").contextId(0).build(),
+            Task.builder().id(1).text("Build my first React app").contextId(1).build(),
+            Task.builder().id(2).text("Buy milk").contextId(3).build()
     );
 
     @RequestMapping(value = "/tasks", method = GET)

@@ -1,5 +1,6 @@
 package com.infosupport.training.reactjs.gtdserver.tasks;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,5 +9,6 @@ import lombok.Getter;
 public class Task {
     private final long id;
     private final String text;
-    private final long context_id;
+    @JsonProperty("context_id")
+    private final long contextId;
 }
