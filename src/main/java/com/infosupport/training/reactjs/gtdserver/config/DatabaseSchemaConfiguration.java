@@ -16,7 +16,7 @@ public class DatabaseSchemaConfiguration {
     @Bean
     public SpringLiquibase databaseSchema() {
         final SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("classpath:db-changeLog.xml");
+        liquibase.setChangeLog("classpath:db-changelog.xml");
         liquibase.setDataSource(dataSource);
 
         return liquibase;
