@@ -18,18 +18,29 @@ public class ContextsIT {
     @LocalServerPort
     private Integer localPort;
 
+    private String token;
+
     @Before
-    public void x() {
+    public void configurePort() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.port = localPort;
+
+        token = given()
+                .contentType("application/x-www-form-urlencoded")
+                .formParam("username", "john@doe.com")
+                .formParam("password", "d03")
+                .post("/public/users/register")
+                .getBody().asString();
     }
     
     @Test
-    public void whatever() {
+    public void retrieveContexts() {
         given().
                 contentType("application/json").
+                header("Authorization", "Bearer " + token).
                 get("/api/contexts").
         then().
                 statusCode(200).
-                body("$.length()", is(4));
+                body("$.size()", is(4));
     }
 }
