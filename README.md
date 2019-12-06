@@ -2,6 +2,11 @@
 This repository contains a small REST API, written in Spring Boot.
 The resources are related to David Allens [_Getting Things Done_](https://en.wikipedia.org/wiki/Getting_Things_Done) time management method.
 
+[![CircleCI](https://circleci.com/gh/mthmulders/gtd-server/tree/master.svg?style=svg)](https://circleci.com/gh/mthmulders/gtd-server/tree/master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mthmulders_gtd-server&metric=alert_status)](https://sonarcloud.io/dashboard?id=mthmulders_gtd-server)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=mthmulders_gtd-server&metric=sqale_index)](https://sonarcloud.io/dashboard?id=mthmulders_gtd-server)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mthmulders_gtd-server&metric=coverage)](https://sonarcloud.io/dashboard?id=mthmulders_gtd-server)
+
 ## API
 
 ### 1. Creating an account
