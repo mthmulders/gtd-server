@@ -17,22 +17,17 @@ import java.util.Optional;
 @Component
 @Slf4j
 public class InMemoryUserService implements UserService {
-    private final Map<String, User> users = new HashMap<>();
-
+    private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
     @Override
     public void save(final User user) {
         final String encodedPassword = encoder.encode(user.getPassword());
-        users.put(user.getId(), user.withPassword(encodedPassword));
+        userRepository.store(user.withPassword(encodedPassword));
     }
 
     @Override
     public Optional<User> findByUsername(final String username) {
-        return users
-                .values()
-                .stream()
-                .filter(u -> Objects.equals(username, u.getUsername()))
-                .findFirst();
+        return userRepository.findByUsername(username);
     }
 }
