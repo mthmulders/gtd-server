@@ -41,7 +41,7 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
       - run:
           name: Run tests
-          command: mvn verify sonar:sonar
+          command: mvn verify sonar:sonar -Djava.version=11
       - run:
           name: Save test results
           command: |
