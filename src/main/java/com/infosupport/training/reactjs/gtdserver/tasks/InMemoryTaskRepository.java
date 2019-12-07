@@ -8,7 +8,7 @@ import java.util.Collections;
 
 @Component
 public class InMemoryTaskRepository implements TaskRepository {
-    private static Collection<Task> DATA = Arrays.asList(
+    private static Collection<Task> data = Arrays.asList(
             Task.builder().id(0).text("Learn React at Info Support").contextId(0).build(),
             Task.builder().id(1).text("Build my first React app").contextId(1).build(),
             Task.builder().id(2).text("Buy milk").contextId(3).build()
@@ -16,6 +16,6 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     @Override
     public Collection<Task> getAllTasks() {
-        return Collections.unmodifiableCollection(DATA);
+        return Collections.unmodifiableCollection(data);
     }
 }
