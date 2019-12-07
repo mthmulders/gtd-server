@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.With;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,8 +18,10 @@ import static java.util.Objects.requireNonNull;
 
 @Builder
 @Getter
+@Table("USERS")
 @With
 public class User implements UserDetails {
+    @Id
     private String id;
     private String username;
     private String password; // Yes, this should be char[], but Springs UserDetail class models it as a String :(
@@ -27,7 +31,7 @@ public class User implements UserDetails {
          @JsonProperty("username") final String username,
          @JsonProperty("password") final String password) {
         super();
-        this.id = requireNonNull(id);
+        this.id = id;
         this.username = requireNonNull(username);
         this.password = requireNonNull(password);
     }

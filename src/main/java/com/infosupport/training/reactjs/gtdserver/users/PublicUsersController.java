@@ -26,7 +26,6 @@ public class PublicUsersController {
             @RequestParam("password") final String password
     ) {
         final User user = User.builder()
-                .id(UUID.randomUUID().toString())
                 .username(username)
                 .password(password)
                 .build();

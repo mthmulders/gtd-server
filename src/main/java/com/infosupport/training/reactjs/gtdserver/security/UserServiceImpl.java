@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         });
 
         final String encodedPassword = encoder.encode(user.getPassword());
-        userRepository.store(user.withPassword(encodedPassword));
+        userRepository.save(user.withPassword(encodedPassword));
     }
 
     @Override
