@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.Map;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -37,10 +39,8 @@ public class JWTTokenServiceTest {
 
         // Act
         final String token = service.expiring(attributes);
-        Thread.sleep(1_100);
 
         // Assert
-        final Map<String, String> result = service.verify(token);
-        assertThat(result.isEmpty(), is(true));
+        await().atMost(2, SECONDS).until(() -> service.verify(token).isEmpty());
     }
 }
