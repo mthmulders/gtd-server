@@ -22,6 +22,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(final User user) {
+        userRepository.findByUsername(user.getUsername()).ifPresent(existingUser -> {
+            log.warn("Attempted to create user {} that already exists", existingUser.getUsername());
+            throw new RuntimeException("invalid login and/or password");
+        });
+
         final String encodedPassword = encoder.encode(user.getPassword());
         userRepository.store(user.withPassword(encodedPassword));
     }
