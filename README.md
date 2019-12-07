@@ -45,6 +45,6 @@ Pre-conditions
 *  the authentication token is stored in an environment variable `TOKEN`
 
 ```sh
-curl -v -H 'Authorization: Bearer $TOKEN' \
+curl -v -H "Authorization: Bearer $TOKEN" \
     http://localhost:8080/users/me
 ```
