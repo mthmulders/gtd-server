@@ -2,7 +2,7 @@ package com.infosupport.training.reactjs.gtdserver.users;
 
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import com.infosupport.training.reactjs.gtdserver.security.UserAuthenticationService;
-import com.infosupport.training.reactjs.gtdserver.security.UserCrudService;
+import com.infosupport.training.reactjs.gtdserver.security.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Slf4j
 public class PublicUsersController {
     private final UserAuthenticationService authentication;
-    private final UserCrudService users;
+    private final UserService users;
 
     @PostMapping("/register")
     public String register(

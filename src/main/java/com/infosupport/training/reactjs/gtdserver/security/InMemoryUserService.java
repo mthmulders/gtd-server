@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Component
 @Slf4j
-public class InMemoryUsers implements UserCrudService {
+public class InMemoryUserService implements UserService {
     private final Map<String, User> users = new HashMap<>();
 
     private final PasswordEncoder encoder;

@@ -25,7 +25,7 @@ public class TokenAuthenticationServiceTest {
     private static final User USER = User.builder().id(UUID.randomUUID().toString()).password(PASSWORD).username(USERNAME).build();
 
     private final TokenService tokens = mock(TokenService.class);
-    private final UserCrudService users = mock(UserCrudService.class);
+    private final UserService users = mock(UserService.class);
     private final PasswordEncoder encoder = mock(PasswordEncoder.class);
 
     private final TokenAuthenticationService service = new TokenAuthenticationService(tokens, users, encoder);

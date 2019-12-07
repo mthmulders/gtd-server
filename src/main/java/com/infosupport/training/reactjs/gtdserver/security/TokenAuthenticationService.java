@@ -15,7 +15,7 @@ import static java.util.Collections.singletonMap;
 @Slf4j
 public class TokenAuthenticationService implements UserAuthenticationService {
     private final TokenService tokens;
-    private final UserCrudService users;
+    private final UserService users;
     private final PasswordEncoder encoder;
 
     @Override

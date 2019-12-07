@@ -2,7 +2,7 @@ package com.infosupport.training.reactjs.gtdserver.users;
 
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import com.infosupport.training.reactjs.gtdserver.security.UserAuthenticationService;
-import com.infosupport.training.reactjs.gtdserver.security.UserCrudService;
+import com.infosupport.training.reactjs.gtdserver.security.UserService;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -18,7 +18,7 @@ public class PublicUsersControllerTest {
     private static final String USERNAME = "john.doe@example.com";
 
     private final UserAuthenticationService authentication = mock(UserAuthenticationService.class);
-    private final UserCrudService users = mock(UserCrudService.class);
+    private final UserService users = mock(UserService.class);
 
     private final PublicUsersController controller = new PublicUsersController(authentication, users);
 
