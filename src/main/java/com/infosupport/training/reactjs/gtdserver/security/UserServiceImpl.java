@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Component
 @Slf4j
-public class InMemoryUserService implements UserService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
