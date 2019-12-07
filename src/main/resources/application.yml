@@ -10,4 +10,3 @@ jwt:
   issuer: react-js-workshop
   expiration-sec: 14400 # four hours
   clock-skew-sec: 300
-  secret: 8:=kdR=R!6-!_Y4Q28^tgbscU85:G~*K
