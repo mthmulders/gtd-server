@@ -2,6 +2,7 @@ package com.infosupport.training.reactjs.gtdserver.security;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Component
 @Slf4j
 public class UserServiceImpl implements UserService {
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
@@ -25,7 +27,10 @@ public class UserServiceImpl implements UserService {
         });
 
         final String encodedPassword = encoder.encode(user.getPassword());
-        userRepository.save(user.withPassword(encodedPassword));
+        final User storedUser = userRepository.save(user.withPassword(encodedPassword));
+        log.info("User account {} created", storedUser.getUsername());
+
+        applicationEventPublisher.publishEvent(new UserRegisteredEvent(storedUser));
     }
 
     @Override

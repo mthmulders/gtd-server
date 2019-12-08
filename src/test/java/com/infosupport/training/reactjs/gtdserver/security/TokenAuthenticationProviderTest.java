@@ -24,7 +24,7 @@ public class TokenAuthenticationProviderTest {
         final String token = UUID.randomUUID().toString();
         final String username = "john.doe@example.com";
         final UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(token, token);
-        final User user = User.builder().id(UUID.randomUUID().toString()).password("").username(username).build();
+        final User user = User.builder().id(UUID.randomUUID()).password("").username(username).build();
         when(auth.findByToken(token)).thenReturn(Optional.of(user));
 
         // Act

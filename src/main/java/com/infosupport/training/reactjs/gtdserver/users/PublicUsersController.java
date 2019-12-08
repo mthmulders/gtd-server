@@ -29,7 +29,6 @@ public class PublicUsersController {
                 .build();
 
         users.save(user);
-        log.info("User account {} created", username);
         return login(username, password);
     }
 

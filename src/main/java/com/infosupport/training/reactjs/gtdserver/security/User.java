@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
@@ -22,15 +23,14 @@ import static java.util.Objects.requireNonNull;
 @With
 public class User implements UserDetails {
     @Id
-    private String id;
+    private UUID id;
     private String username;
     private String password; // Yes, this should be char[], but Springs UserDetail class models it as a String :(
 
     @JsonCreator
-    User(@JsonProperty("id") final String id,
-         @JsonProperty("username") final String username,
-         @JsonProperty("password") final String password) {
-        super();
+    public User(@JsonProperty("id") final UUID id,
+                @JsonProperty("username") final String username,
+                @JsonProperty("password") final String password) {
         this.id = id;
         this.username = requireNonNull(username);
         this.password = requireNonNull(password);

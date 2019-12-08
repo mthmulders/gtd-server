@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class TokenAuthenticationServiceTest {
     private static final String PASSWORD = ".`T*bu*{A~3xZ_E";
     private static final String USERNAME = "john.doe@example.com";
-    private static final User USER = User.builder().id(UUID.randomUUID().toString()).password(PASSWORD).username(USERNAME).build();
+    private static final User USER = User.builder().id(UUID.randomUUID()).password(PASSWORD).username(USERNAME).build();
 
     private final TokenService tokens = mock(TokenService.class);
     private final UserService users = mock(UserService.class);

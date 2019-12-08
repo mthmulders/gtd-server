@@ -2,11 +2,13 @@
 <configuration>
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</pattern>
         </encoder>
     </appender>
 
+    <logger name="com.infosupport.training.reactjs.gtdserver.integration" level="info" />
+
     <root level="error">
-<!--        <appender-ref ref="stdout" />-->
+        <appender-ref ref="stdout" />
     </root>
 </configuration>
