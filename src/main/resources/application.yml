@@ -7,6 +7,6 @@ spring:
     platform: org.hibernate.dialect.H2Dialect
 
 jwt:
-  issuer: react-js-workshop
+  issuer: gtd-server
   expiration-sec: 14400 # four hours
   clock-skew-sec: 300
