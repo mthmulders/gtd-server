@@ -25,6 +25,9 @@ jobs:
           when: always
       - store_test_results:
           path: ~/junit
+      - store_artifacts:
+          destination: "packages/debian"
+          path: "target/deb"
 
   build-java-11:
     docker:
@@ -51,6 +54,9 @@ jobs:
           when: always
       - store_test_results:
           path: ~/junit
+      - store_artifacts:
+          destination: "packages/debian"
+          path: "target/deb"
 
 workflows:
   version: 2

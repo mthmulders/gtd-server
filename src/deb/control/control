@@ -1,0 +1,8 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: low
+Architecture: all
+Description: Sample GTD application server
+Maintainer: Maarten Mulders
+Depends: openjdk-[[openjdk.version]]-jre

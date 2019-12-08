@@ -14,6 +14,8 @@
 	<name>gtd-server</name>
 	<description>Demo project for Spring Boot</description>
 
+	<url>http://github.com/mthmulders/gtd-server</url>
+
 	<scm>
 		<connection>scm:git:https://github.com/mthmulders/gtd-server</connection>
 		<developerConnection>scm:git:git://github.com/mthmulders/gtd-server</developerConnection>
@@ -110,10 +112,22 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>application-prod.yml</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -122,6 +136,52 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.vafer</groupId>
+				<artifactId>jdeb</artifactId>
+				<version>1.8</version>
+				<configuration>
+					<dataSet>
+						<data>
+							<type>file</type>
+							<src>${project.basedir}/src/deb/gtd-server.conf</src>
+							<dst>/opt/${project.artifactId}/${project.artifactId}.conf</dst>
+						</data>
+						<data>
+							<type>file</type>
+							<src>${project.build.directory}/${project.artifactId}.jar</src>
+							<dst>/opt/${project.artifactId}/${project.artifactId}.jar</dst>
+							<mapper>
+								<type>perm</type>
+								<filemode>755</filemode>
+							</mapper>
+						</data>
+						<data>
+							<type>file</type>
+							<src>src/main/resources/application-prod.yml</src>
+							<dst>/etc/gtd-server/application.yml</dst>
+							<conffile>true</conffile>
+						</data>
+						<data>
+							<type>link</type>
+							<linkTarget>/opt/${project.artifactId}/${project.artifactId}.jar</linkTarget>
+							<linkName>/etc/init.d/gtd-server</linkName>
+							<symlink>true</symlink>
+						</data>
+					</dataSet>
+					<deb>${project.build.directory}/deb/${project.artifactId}_${project.version}-java-${openjdk.version}_all.deb</deb>
+					<verbose>true</verbose>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-debian-package</id>
+						<goals>
+							<goal>jdeb</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -160,6 +220,10 @@
 			<activation>
 				<jdk>11</jdk>
 			</activation>
+			<properties>
+				<java.version>11</java.version>
+				<openjdk.version>11</openjdk.version>
+			</properties>
 			<dependencies>
 				<!--
 					JJWT 0.9.1 depends some JAXB class for Base64 encoding/decoding.
