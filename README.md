@@ -48,3 +48,22 @@ Pre-conditions
 curl -v -H "Authorization: Bearer $TOKEN" \
     http://localhost:8080/users/me
 ```
+
+### 4. Working with your contexts
+Pre-conditions
+
+*  the authentication token is stored in an environment variable `TOKEN`
+
+#### a. Getting your contexts
+```sh
+curl -v -H "Authorization: Bearer $TOKEN" \
+    http://localhost:8080/contexts
+```
+
+#### b. Creating a new context
+```sh
+curl -v -H "Authorization: Bearer $TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "{ \"name\": \"Example\" }" \
+     http://localhost:8080/contexts
+```
