@@ -1,5 +1,6 @@
 package com.infosupport.training.reactjs.gtdserver.security;
 
+import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import org.junit.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,6 +14,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -20,10 +22,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class TokenAuthenticationServiceTest {
-    private static final String PASSWORD = ".`T*bu*{A~3xZ_E";
-    private static final String USERNAME = "john.doe@example.com";
-    private static final User USER = User.builder().id(UUID.randomUUID()).password(PASSWORD).username(USERNAME).build();
-
     private final TokenService tokens = mock(TokenService.class);
     private final UserService users = mock(UserService.class);
     private final PasswordEncoder encoder = mock(PasswordEncoder.class);
@@ -34,13 +32,14 @@ public class TokenAuthenticationServiceTest {
     @Test
     public void login_withValidUsernameAndPassword_shouldGenerateToken() {
         // Arrange
+        final User user = Fixtures.createUser();
         final String token = UUID.randomUUID().toString();
-        when(users.findByUsername(USERNAME)).thenReturn(Optional.of(USER));
+        when(users.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(tokens.expiring(any())).thenReturn(token);
         when(encoder.matches(anyString(), anyString())).thenReturn(true);
 
         // Act
-        final Optional<String> result = service.login(USERNAME, PASSWORD);
+        final Optional<String> result = service.login(user.getUsername(), user.getPassword());
 
         // Assert
         assertThat(result, is(optionalWithValue(equalTo(token))));
@@ -49,11 +48,12 @@ public class TokenAuthenticationServiceTest {
     @Test
     public void login_withInvalidUsernameAndPassword_shouldNotGenerateToken() {
         // Arrange
-        when(users.findByUsername(USERNAME)).thenReturn(Optional.of(USER));
-        when(encoder.matches(anyString(), anyString())).thenReturn(false);
+        final User user = Fixtures.createUser();
+        when(users.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(encoder.matches(anyString(), eq("wrong-password"))).thenReturn(false);
 
         // Act
-        service.login(USERNAME, PASSWORD);
+        service.login(user.getUsername(), "wrong-password");
 
         // Assert
         verify(tokens, never()).expiring(any());
@@ -62,15 +62,16 @@ public class TokenAuthenticationServiceTest {
     @Test
     public void findByToken_withValidToken_shouldReturnUser() {
         // Arrange
+        final User user = Fixtures.createUser();
         final String token = UUID.randomUUID().toString();
-        final Map<String, String> claims = Collections.singletonMap("username", USERNAME);
+        final Map<String, String> claims = Collections.singletonMap("username", user.getUsername());
         when(tokens.verify(token)).thenReturn(claims);
-        when(users.findByUsername(USERNAME)).thenReturn(Optional.of(USER));
+        when(users.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         // Act
         final Optional<User> result = service.findByToken(token);
 
         // Assert
-        assertThat(result, is(optionalWithValue(equalTo(USER))));
+        assertThat(result, is(optionalWithValue(equalTo(user))));
     }
 }

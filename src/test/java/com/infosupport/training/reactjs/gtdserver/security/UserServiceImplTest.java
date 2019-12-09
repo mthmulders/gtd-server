@@ -1,5 +1,6 @@
 package com.infosupport.training.reactjs.gtdserver.security;
 
+import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,10 +19,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class UserServiceImplTest {
-    private static final String PASSWORD = ".`T*bu*{A~3xZ_E";
-    private static final String USERNAME = "john.doe@example.com";
-    private static final User USER = User.builder().password(PASSWORD).username(USERNAME).build();
-
     private final ApplicationEventPublisher eventPublisher = mock(ApplicationEventPublisher.class);
     private final UserRepository userRepository = mock(UserRepository.class);
     private final PasswordEncoder encoder = mock(PasswordEncoder.class);
@@ -31,59 +28,62 @@ public class UserServiceImplTest {
     @Test(expected = RuntimeException.class)
     public void save_whenUserExists_shouldThrowException() {
         // Arrange
-        when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(USER));
+        final User user = Fixtures.createUser();
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         // Act
-        service.save(USER);
+        service.save(user);
     }
 
     @Test
     public void save_shouldFireEvent() {
         // Arrange
-        final UUID userId = UUID.randomUUID();
-        when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.empty());
-        when(userRepository.save(any())).thenReturn(USER.withId(userId));
-        when(encoder.encode(PASSWORD)).thenReturn("");
+        final User user = Fixtures.createUser();
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
+        when(userRepository.save(any())).thenReturn(user);
+        when(encoder.encode(user.getPassword())).thenReturn("");
 
         // Act
-        service.save(USER);
+        service.save(user);
 
         // Assert
         final ArgumentCaptor<UserRegisteredEvent> eventCaptor = ArgumentCaptor.forClass(UserRegisteredEvent.class);
         verify(eventPublisher).publishEvent(eventCaptor.capture());
         final UserRegisteredEvent event = eventCaptor.getValue();
         assertThat(event.getSource(), is(instanceOf(User.class)));
-        assertThat(((User) event.getSource()).getId(), is(userId));
+        assertThat(((User) event.getSource()).getId(), is(user.getId()));
     }
 
     @Test
     public void save_whenUserDoesNotExists_shouldStoreWithEncodedPassword() {
         // Arrange
+        final User user = Fixtures.createUser();
         final String encodedPassword = "gibberish";
-        when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.empty());
-        when(encoder.encode(PASSWORD)).thenReturn(encodedPassword);
-        when(userRepository.save(any())).thenReturn(USER.withId(UUID.randomUUID()));
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
+        when(encoder.encode(user.getPassword())).thenReturn(encodedPassword);
+        when(userRepository.save(any())).thenReturn(user);
 
         // Act
-        service.save(USER);
+        service.save(user);
 
         // Assert
         final ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(userCaptor.capture());
         final User storedUser = userCaptor.getValue();
-        assertThat(storedUser.getUsername(), is(USERNAME));
+        assertThat(storedUser.getUsername(), is(user.getUsername()));
         assertThat(storedUser.getPassword(), is(encodedPassword));
     }
 
     @Test
     public void findByUsername_shouldQueryRepository() {
         // Arrange
-        when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(USER));
+        final User user = Fixtures.createUser();
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         // Act
-        final Optional<User> result = service.findByUsername(USERNAME);
+        final Optional<User> result = service.findByUsername(user.getUsername());
 
         // Assert
-        assertThat(result, optionalWithValue(is(USER)));
+        assertThat(result, optionalWithValue(is(user)));
     }
 }

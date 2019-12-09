@@ -1,11 +1,10 @@
 package com.infosupport.training.reactjs.gtdserver.contexts;
 
+import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import com.infosupport.training.reactjs.gtdserver.security.UserRegisteredEvent;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -21,7 +20,7 @@ public class InitialContextsEventListenerTest {
     @Test
     public void onApplicationEvent_shouldCreateInitialContexts() {
         // Arrange
-        final User user = User.builder().id(UUID.randomUUID()).username("example").password("example").build();
+        final User user = Fixtures.createUser();
         final UserRegisteredEvent event = new UserRegisteredEvent(user);
 
         // Act

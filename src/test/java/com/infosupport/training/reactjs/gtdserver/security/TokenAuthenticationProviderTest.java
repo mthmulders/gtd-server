@@ -1,5 +1,6 @@
 package com.infosupport.training.reactjs.gtdserver.security;
 
+import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import org.junit.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,16 +23,15 @@ public class TokenAuthenticationProviderTest {
     public void retrieveUser_withValidToken_shouldReturnUserDetails() {
         // Arrange
         final String token = UUID.randomUUID().toString();
-        final String username = "john.doe@example.com";
         final UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(token, token);
-        final User user = User.builder().id(UUID.randomUUID()).password("").username(username).build();
+        final User user = Fixtures.createUser();
         when(auth.findByToken(token)).thenReturn(Optional.of(user));
 
         // Act
         final UserDetails userDetails = provider.retrieveUser(null, authToken);
 
         // Assert
-        assertThat(userDetails.getUsername(), is(username));
+        assertThat(userDetails.getUsername(), is(user.getUsername()));
     }
 
     @Test(expected = UsernameNotFoundException.class)
