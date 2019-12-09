@@ -259,6 +259,36 @@
 				</dependency>
 			</dependencies>
 		</profile>
+
+		<profile>
+			<id>mutation-testing</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-maven</artifactId>
+						<version>1.4.10</version>
+						<configuration>
+							<excludedTestClasses>
+								<param>*IT</param>
+							</excludedTestClasses>
+							<targetClasses>
+								<param>com.infosupport.training.reactjs.gtdserver*</param>
+							</targetClasses>
+						</configuration>
+						<executions>
+							<execution>
+								<id>mutation-testing</id>
+								<goals>
+									<goal>mutationCoverage</goal>
+								</goals>
+								<phase>verify</phase>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 </project>
