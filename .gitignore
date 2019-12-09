@@ -12,7 +12,13 @@ HELP.md
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/codeStyles
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/$PRODUCT_WORKSPACE_FILE$
 *.iws
 *.iml
 *.ipr

@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GtdServerApplication (Java 8)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="gtd-server" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.infosupport.training.reactjs.gtdserver.GtdServerApplication" />
+    <option name="VM_PARAMETERS" value="-Djwt.secret=XUHFd3VeagucHaMApjVJaND2tAhx6Cwm -Dspring.datasource.url=jdbc:h2:file:~/gtd-database;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
