@@ -24,8 +24,7 @@ public class ContextsController {
 
     @PostMapping
     public void createContext(@AuthenticationPrincipal final User user,
-                              @RequestBody final Context context)
-    {
+                              @RequestBody final Context context) {
         contextRepository.save(context.withUserId(user.getId()));
     }
 }

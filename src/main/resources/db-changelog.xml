@@ -55,4 +55,37 @@
             <column name="ID" />
         </createIndex>
     </changeSet>
+
+    <changeSet author="mthmulders" id="create-task-table">
+        <createTable tableName="TASKS">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="USER_ID" type="${uuid_type}">
+                <constraints nullable="false" />
+            </column>
+            <column name="CONTEXT_ID" type="${uuid_type}">
+                <constraints nullable="false" />
+            </column>
+            <column name="TEXT" type="VARCHAR(256)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="TASKS"
+                                 baseColumnNames="USER_ID,CONTEXT_ID"
+                                 constraintName="TASKS_CONTEXTS_FK"
+                                 referencedTableName="CONTEXTS"
+                                 referencedColumnNames="USER_ID,ID" />
+        <addForeignKeyConstraint baseTableName="TASKS"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="TASKS_USERS_FK"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID" />
+        <createIndex tableName="TASKS" indexName="TASKS_USER_ID_CONTEXT_ID_IDX">
+            <column name="USER_ID" />
+            <column name="CONTEXT_ID" />
+            <column name="ID" />
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>
