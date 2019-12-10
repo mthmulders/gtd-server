@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.spotify.hamcrest.optional.OptionalMatchers.optionalWithValue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAndIs;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -42,7 +40,7 @@ public class TokenAuthenticationServiceTest {
         final Optional<String> result = service.login(user.getUsername(), user.getPassword());
 
         // Assert
-        assertThat(result, is(optionalWithValue(equalTo(token))));
+        assertThat(result, isPresentAndIs(token));
     }
 
     @Test
@@ -72,6 +70,6 @@ public class TokenAuthenticationServiceTest {
         final Optional<User> result = service.findByToken(token);
 
         // Assert
-        assertThat(result, is(optionalWithValue(equalTo(user))));
+        assertThat(result, isPresentAndIs(user));
     }
 }

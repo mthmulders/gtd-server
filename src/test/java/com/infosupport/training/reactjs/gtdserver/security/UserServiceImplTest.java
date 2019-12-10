@@ -7,9 +7,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
-import java.util.UUID;
 
-import static com.spotify.hamcrest.optional.OptionalMatchers.optionalWithValue;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAndIs;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -84,6 +83,6 @@ public class UserServiceImplTest {
         final Optional<User> result = service.findByUsername(user.getUsername());
 
         // Assert
-        assertThat(result, optionalWithValue(is(user)));
+        assertThat(result, isPresentAndIs(user));
     }
 }
