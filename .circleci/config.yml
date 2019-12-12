@@ -10,14 +10,13 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn dependency:go-offline
+      - run:
+          name: Run tests
+          command: mvn verify sonar:sonar -Pmutation-testing
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run:
-          name: Run tests
-          command: mvn verify sonar:sonar -Pmutation-testing
       - run:
           name: Save test results
           command: |
@@ -47,14 +46,13 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn dependency:go-offline
+      - run:
+          name: Run tests
+          command: mvn verify sonar:sonar -Djava.version=11 -Pmutation-testing
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run:
-          name: Run tests
-          command: mvn verify sonar:sonar -Djava.version=11 -Pmutation-testing
       - run:
           name: Save test results
           command: |
