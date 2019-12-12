@@ -2,7 +2,7 @@
   <configuration default="false" name="All integration tests" type="JUnit" factoryName="JUnit">
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="com.infosupport.training.reactjs.gtdserver.integration.*" />
+        <option name="PATTERN" value="com.infosupport.training.reactjs.gtdserver.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
