@@ -11,16 +11,16 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/tasks")
 public class TasksController {
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
     @GetMapping
     public Collection<Task> getAllTasks(@AuthenticationPrincipal final User user) {
-        return taskRepository.findByUserId(user.getId());
+        return taskService.findByUserId(user.getId());
     }
 
     @PostMapping
     public void createTask(@AuthenticationPrincipal final User user,
                            @RequestBody final Task task) {
-        taskRepository.save(task.withUserId(user.getId()));
+        taskService.save(task.withUserId(user.getId()));
     }
 }
