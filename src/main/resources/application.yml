@@ -6,6 +6,11 @@ spring:
     password:
     platform: org.hibernate.dialect.H2Dialect
 
+logging:
+  level:
+    root: WARN
+    com.infosupport: DEBUG
+
 jwt:
   issuer: gtd-server
   expiration-sec: 14400 # four hours

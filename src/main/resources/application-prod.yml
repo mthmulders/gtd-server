@@ -6,5 +6,9 @@ spring:
     password:
     platform: org.hibernate.dialect.OracleDialect
 
+logging:
+  level:
+    com.infosupport: INFO
+
 jwt:
   secret:
