@@ -19,6 +19,10 @@ HELP.md
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/$PRODUCT_WORKSPACE_FILE$
+.idea/libraries
+.idea/shelf
+.idea/sbt.xml
+.idea/modules.xml
 *.iws
 *.iml
 *.ipr
