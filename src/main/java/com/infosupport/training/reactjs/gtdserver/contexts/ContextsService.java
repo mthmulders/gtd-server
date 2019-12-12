@@ -1,7 +1,6 @@
 package com.infosupport.training.reactjs.gtdserver.contexts;
 
 import com.infosupport.training.reactjs.gtdserver.security.User;
-import com.infosupport.training.reactjs.gtdserver.tasks.Task;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

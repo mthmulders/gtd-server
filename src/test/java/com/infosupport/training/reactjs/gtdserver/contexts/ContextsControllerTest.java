@@ -3,8 +3,6 @@ package com.infosupport.training.reactjs.gtdserver.contexts;
 import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
@@ -14,16 +12,18 @@ import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public class ContextsControllerTest {
-    private final ContextRepository repository = mock(ContextRepository.class);
-    private final ContextsController controller = new ContextsController(repository);
+    private final ContextsService service = mock(ContextsService.class);
+    private final ContextsController controller = new ContextsController(service);
 
     @Test
     public void getAllContexts_shouldGetContextsForUser() {
@@ -32,7 +32,7 @@ public class ContextsControllerTest {
         final Collection<Context> contexts = Collections.singleton(
                 Fixtures.createContextForUser(user)
         );
-        when(repository.findByUserId(user.getId())).thenReturn(contexts);
+        when(service.findByUserId(user.getId())).thenReturn(contexts);
 
         // Act
         final Collection<Context> result = controller.getAllContexts(user);
@@ -46,8 +46,8 @@ public class ContextsControllerTest {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
-        when(repository.save(any()))
-                .then((invocation) -> invocation.getArgument(0, Context.class).withId(UUID.randomUUID()));
+        when(service.save(any(), any()))
+                .then((invocation) -> invocation.getArgument(1, Context.class).withId(UUID.randomUUID()));
 
         // Act
         final ResponseEntity<Context> response = controller.createContext(user, context);
@@ -63,7 +63,7 @@ public class ContextsControllerTest {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
-        when(repository.save(any())).then((invocation) -> invocation.getArgument(0));
+        when(service.save(any(), any())).then((invocation) -> invocation.getArgument(1));
 
         // Act
         final ResponseEntity<Context> response = controller.createContext(user, context);
@@ -75,28 +75,11 @@ public class ContextsControllerTest {
     }
 
     @Test
-    public void updateContext_shouldVerifyContextExists() {
-        // Arrange
-        final User user = Fixtures.createUser();
-        final Context context = Fixtures.createContextForUser(user);
-        when(repository.findByUserIdAndId(any(), any())).thenReturn(Optional.empty());
-
-        // Act
-        final ResponseEntity<Context> response = controller.updateContext(user, context.getId(), context);
-
-        // Assert
-        assertThat(response.getStatusCode(), is(NOT_FOUND));
-    }
-
-    @Test
     public void updateContext_shouldPerformUpdate() {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
-        when(repository.findByUserIdAndId(any(), any())).thenReturn(
-                Optional.of(context)
-        );
-        when(repository.save(any())).then((invocation) -> invocation.getArgument(0));
+        when(service.save(any(), any(), any())).then((invocation) -> Optional.of(invocation.getArgument(2)));
 
         // Act
         final ResponseEntity<Context> response = controller.updateContext(user, context.getId(), context);
@@ -105,5 +88,20 @@ public class ContextsControllerTest {
         assertThat(response.getStatusCode(), is(OK));
         assertThat(response.getBody(), is(notNullValue()));
         assertThat(response.getBody().getUserId(), is(user.getId()));
+    }
+
+    @Test
+    public void updateContext_whenNonExisting_shouldNotPerformUpdate() {
+        // Arrange
+        final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user);
+        when(service.save(any(), any(), any())).then((invocation) -> Optional.empty());
+
+        // Act
+        final ResponseEntity<Context> response = controller.updateContext(user, context.getId(), context);
+
+        // Assert
+        assertThat(response.getStatusCode(), is(NOT_FOUND));
+        assertThat(response.getBody(), is(nullValue()));
     }
 }
