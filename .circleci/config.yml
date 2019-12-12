@@ -28,7 +28,7 @@ jobs:
           name: Verify Debian package
           command: |
             docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c \
-              "apt-get update && apt-get install openjdk-8-jre && dpkg -i /tmp/package/gtd*deb"
+              "apt-get update && apt-get install -y openjdk-8-jre && dpkg -i /tmp/package/gtd*deb"
 
       - store_test_results:
           path: ~/junit
@@ -64,7 +64,7 @@ jobs:
           name: Verify Debian package
           command: |
             docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c \
-              "apt-get update && apt-get install openjdk-11-jre && dpkg -i /tmp/package/gtd*deb"
+              "apt-get update && apt-get install -y openjdk-11-jre && dpkg -i /tmp/package/gtd*deb"
       - store_test_results:
           path: ~/junit
       - store_artifacts:
