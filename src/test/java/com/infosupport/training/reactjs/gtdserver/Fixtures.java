@@ -15,6 +15,10 @@ public class Fixtures {
         return User.builder().id(UUID.randomUUID()).password(password).username(username).build();
     }
 
+    public static Context createContext() {
+        return createContextForUser((UUID) null);
+    }
+
     public static Context createContextForUser(final UUID userId) {
         return Context.builder().name("Example").userId(userId).build();
     }
