@@ -22,9 +22,7 @@ ADD target/deb/*deb /tmp
 EOF
 
 # Build an intermediate container
-docker build -t package-checker .
+docker build -t packagechecker .
 
-docker run -v package:/packages package /bin/sh -c 'cp /var/data/*deb /packages'
-
-docker run package-checker /bin/bash -c "dpkg -i /tmp/*deb"
+docker run packagechecker /bin/bash -c "dpkg -i /tmp/*deb"
 
