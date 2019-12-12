@@ -3,6 +3,7 @@ jobs:
   build-java-8:
     docker:
       - image: circleci/openjdk:8-jdk
+      - image: ubuntu:18.04
     steps:
       - checkout
       - restore_cache:
@@ -23,6 +24,12 @@ jobs:
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
             find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
           when: always
+      - run:
+          name: Verify Debian package
+          command: |
+            docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c \
+              "apt-get update && apt-get install openjdk-8-jre && dpkg -i /tmp/package/gtd*deb"
+
       - store_test_results:
           path: ~/junit
       - store_artifacts:
@@ -52,6 +59,11 @@ jobs:
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
             find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
           when: always
+      - run:
+          name: Verify Debian package
+          command: |
+            docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c \
+              "apt-get update && apt-get install openjdk-11-jre && dpkg -i /tmp/package/gtd*deb"
       - store_test_results:
           path: ~/junit
       - store_artifacts:
