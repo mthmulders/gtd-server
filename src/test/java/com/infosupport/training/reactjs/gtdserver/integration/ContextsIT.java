@@ -4,7 +4,8 @@ import com.infosupport.training.reactjs.gtdserver.contexts.Context;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.Matchers.greaterThan;
 
 public class ContextsIT extends AbstractIT {
     
@@ -18,7 +19,7 @@ public class ContextsIT extends AbstractIT {
                 get("/contexts").
         then().
                 statusCode(200).
-                body("$.size()", is(4));
+                body("$.size()", greaterThan(0));
     }
 
     @Test
@@ -40,7 +41,6 @@ public class ContextsIT extends AbstractIT {
                 get("/contexts").
         then().
                 statusCode(200).
-                body("$.size()", is(5)).
-                body("[4].name", is(context.getName()));
+                body("name", hasItem(context.getName()));
     }
 }
