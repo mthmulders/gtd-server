@@ -15,8 +15,8 @@ FROM ubuntu:18.04
 # Force a new image every time we run this script
 RUN echo $timestamp
 
-RUN apt-get update
-RUN apt-get install openjdk-${java_version}-jre
+RUN apt-get update -q
+RUN apt-get install -q -y openjdk-${java_version}-jre
 
 ADD target/deb/*deb /tmp
 EOF
