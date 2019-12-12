@@ -26,7 +26,7 @@ public class TaskService {
     public Optional<Task> save(final User user, final UUID id, final Task task) {
         return taskRepository
                 .findByUserIdAndId(user.getId(), id)
-                .map(existing -> task.withUserId(existing.getId()).withId(existing.getId()))
+                .map(existing -> task.withContextId(existing.getContextId()).withId(existing.getId()))
                 .map(updated -> this.save(user, updated));
     }
 }

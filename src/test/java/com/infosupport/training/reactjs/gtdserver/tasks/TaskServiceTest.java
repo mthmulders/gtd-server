@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
+import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -66,5 +68,39 @@ public class TaskServiceTest {
         // Assert
         assertThat(result, isEmpty());
         verify(repository, never()).save(any());
+    }
+
+    @Test
+    public void save_whenUpdatedWithNonExistingContext_shouldUseOriginalContextSave() {
+        // Arrange
+        final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user).withId(randomUUID());
+        final Task task = Fixtures.createTaskForUserAndContext(user, context).withId(randomUUID());
+        when(repository.findByUserIdAndId(any(), any())).thenReturn(Optional.of(task));
+        when(repository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        final Optional<Task> result = service.save(user, task.getId(), task.withContextId(randomUUID()));
+
+        // Assert
+        assertThat(result, isPresent());
+        result.ifPresent(storedTask -> assertThat(storedTask.getContextId(), is(task.getContextId())));
+    }
+
+    @Test
+    public void save_whenUpdatedWithOtherUserId_shouldUseUserIdFromAuthentication() {
+        // Arrange
+        final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user).withId(randomUUID());
+        final Task task = Fixtures.createTaskForUserAndContext(user, context).withId(randomUUID());
+        when(repository.findByUserIdAndId(any(), any())).thenReturn(Optional.of(task));
+        when(repository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        final Optional<Task> result = service.save(user, task.getId(), task.withUserId(randomUUID()));
+
+        // Assert
+        assertThat(result, isPresent());
+        result.ifPresent(storedTask -> assertThat(storedTask.getUserId(), is(user.getId())));
     }
 }
