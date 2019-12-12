@@ -7,12 +7,13 @@ import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class TaskServiceTest {
     private final TaskRepository repository = mock(TaskRepository.class);
@@ -49,5 +50,21 @@ public class TaskServiceTest {
 
         // Assert
         assertThat(result.getUserId(), is(user.getId()));
+    }
+
+    @Test
+    public void save_whenUserDoesNotOwnContext_shouldNotSave() {
+        // Arrange
+        final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user);
+        final Task task = Fixtures.createTaskForUserAndContext(user, context);
+        when(repository.findByUserIdAndId(any(), any())).thenReturn(Optional.empty());
+
+        // Act
+        final Optional<Task> result = service.save(user, task.getId(), task);
+
+        // Assert
+        assertThat(result, isEmpty());
+        verify(repository, never()).save(any());
     }
 }
