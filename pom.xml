@@ -158,6 +158,8 @@
 							<mapper>
 								<type>perm</type>
 								<filemode>755</filemode>
+								<user>gtdapp</user>
+								<group>gtdapp</group>
 							</mapper>
 						</data>
 						<data>
@@ -165,6 +167,11 @@
 							<src>src/main/resources/application-prod.yml</src>
 							<dst>/etc/gtd-server/application.yml</dst>
 							<conffile>true</conffile>
+							<mapper>
+								<type>perm</type>
+								<user>gtdapp</user>
+								<group>gtdapp</group>
+							</mapper>
 						</data>
 						<data>
 							<type>link</type>
