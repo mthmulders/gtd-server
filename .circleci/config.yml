@@ -10,6 +10,9 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
       - run:
+          name: Download Maven plugins and dependencies
+          command: mvn -q dependency:go-offline
+      - run:
           name: Run tests
           command: mvn verify sonar:sonar -Pmutation-testing
       - save_cache:
@@ -45,6 +48,9 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Download Maven plugins and dependencies
+          command: mvn -q dependency:go-offline
       - run:
           name: Run tests
           command: mvn verify sonar:sonar -Djava.version=11 -Pmutation-testing
