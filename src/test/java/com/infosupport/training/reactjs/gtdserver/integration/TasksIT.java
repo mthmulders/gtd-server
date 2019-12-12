@@ -4,10 +4,12 @@ import com.infosupport.training.reactjs.gtdserver.contexts.Context;
 import com.infosupport.training.reactjs.gtdserver.tasks.Task;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
@@ -20,7 +22,7 @@ public class TasksIT extends AbstractIT {
                 contentType("application/json").
                 header("Authorization", "Bearer " + token).
                 get("/tasks").
-                then().
+        then().
                 statusCode(200).
                 body("$.size()", is(0));
     }
@@ -29,18 +31,16 @@ public class TasksIT extends AbstractIT {
     public void createTask() {
         final String token = createUser();
 
-        final Context[] contexts =
+        final UUID contextId = UUID.fromString(
             given().
                 contentType("application/json").
                 header("Authorization", "Bearer " + token).
                 get("/contexts").
             then().
                 statusCode(200).
-                extract().as(Context[].class);
-
-        assertThat(contexts.length, greaterThan(0));
-        final Context context = contexts[0];
-        final UUID contextId = context.getId();
+                extract().
+                path("[0].id")
+        );
 
         final Task task = Task.builder().contextId(contextId).text("Example").build();
 
@@ -51,7 +51,7 @@ public class TasksIT extends AbstractIT {
                 body(task).
                 post("/tasks").
         then().
-                statusCode(200);
+                statusCode(201);
 
         // Verify the task is created
         given().
@@ -63,5 +63,46 @@ public class TasksIT extends AbstractIT {
                 body("$.size()", is(1)).
                 body("[0].text", is(task.getText())).
                 body("[0].context_id", is(contextId.toString()));
+    }
+
+    @Test
+    public void updateTask() {
+        final String token = createUser();
+
+        final UUID contextId = UUID.fromString(
+                given().
+                        contentType("application/json").
+                        header("Authorization", "Bearer " + token).
+                        get("/contexts").
+                then().
+                        statusCode(200).
+                        extract().
+                        path("[0].id")
+        );
+
+        final Task task = Task.builder().contextId(contextId).text("Example").build();
+
+        // Create the task
+        final Task storedTask =
+            given().
+                    contentType("application/json").
+                    header("Authorization", "Bearer " + token).
+                    body(task).
+                    post("/tasks").
+            then().
+                    statusCode(201).
+                    extract().as(Task.class);
+
+        final Task updatedTask = storedTask.withText("Another example");
+
+        given().
+                contentType("application/json").
+                header("Authorization", "Bearer " + token).
+                body(updatedTask).
+                post("/tasks/" + updatedTask.getId()).
+        then().
+                statusCode(200).
+                body("text", not(is(task.getText()))).
+                body("text", is(updatedTask.getText()));
     }
 }

@@ -2,10 +2,21 @@ package com.infosupport.training.reactjs.gtdserver.tasks;
 
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @AllArgsConstructor
 @RestController
@@ -19,8 +30,19 @@ public class TasksController {
     }
 
     @PostMapping
-    public void createTask(@AuthenticationPrincipal final User user,
-                           @RequestBody final Task task) {
-        taskService.save(task.withUserId(user.getId()));
+    public ResponseEntity<Task> createTask(@AuthenticationPrincipal final User user,
+                                           @RequestBody final Task task) {
+        final Task storedTask = taskService.save(user, task);
+        return ResponseEntity.status(CREATED).body(storedTask);
+    }
+
+    @PostMapping
+    @RequestMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@AuthenticationPrincipal final User user,
+                                           @PathVariable("id") final UUID id,
+                                           @RequestBody final Task task) {
+        return taskService.save(user, id, task)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

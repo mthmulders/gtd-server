@@ -1,6 +1,7 @@
 package com.infosupport.training.reactjs.gtdserver.tasks;
 
 import com.infosupport.training.reactjs.gtdserver.Fixtures;
+import com.infosupport.training.reactjs.gtdserver.contexts.Context;
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import org.junit.Test;
 
@@ -9,8 +10,8 @@ import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class TaskServiceTest {
@@ -21,8 +22,9 @@ public class TaskServiceTest {
     public void getAllContexts_shouldGetContextsForUser() {
         // Arrange
         final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user);
         final Collection<Task> contexts = Collections.singleton(
-                Task.builder().text("Example").build()
+                Fixtures.createTaskForContext(context)
         );
         when(repository.findByUserId(user.getId())).thenReturn(contexts);
 
@@ -34,14 +36,18 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void save_shouldSaveTask() {
+    public void save_shouldAddUserIdToTask() {
         // Arrange
-        final Task task = Task.builder().text("Example").build();
+        final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user);
+        final Task task = Fixtures.createTaskForContext(context);
+
+        when(repository.save(any())).thenAnswer((invocation -> invocation.getArgument(0)));
 
         // Act
-        service.save(task);
+        final Task result = service.save(user, task);
 
         // Assert
-        verify(repository).save(task);
+        assertThat(result.getUserId(), is(user.getId()));
     }
 }
