@@ -29,14 +29,7 @@ jobs:
       - run:
           name: Verify Debian package
           command: |
-            echo Local files
-            ls -hl "$(pwd)/target/deb"
-            echo
-            echo Files in container
-            docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c "ls -hl /tmp/package"
-            echo Installing package in container
-            docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c \
-              "apt-get -q update && apt-get install -y -q openjdk-8-jre && dpkg -i /tmp/package/gtd-server-java8_all.deb"
+            ./.circleci/verify-debian-package.sh 8
 
       - store_test_results:
           path: ~/junit
@@ -73,14 +66,7 @@ jobs:
       - run:
           name: Verify Debian package
           command: |
-            echo Local files
-            ls -hl "$(pwd)/target/deb"
-            echo
-            echo Files in container
-            docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c "ls -hl /tmp/package"
-            echo Installing package in container
-            docker run -v "$(pwd)/target/deb:/tmp/package" ubuntu:18.04 /bin/bash -c \
-              "apt-get -q update && apt-get install -y -q openjdk-11-jre && dpkg -i /tmp/package/gtd-server-java11_all.deb"
+            ./.circleci/verify-debian-package.sh 11
       - store_test_results:
           path: ~/junit
       - store_artifacts:
