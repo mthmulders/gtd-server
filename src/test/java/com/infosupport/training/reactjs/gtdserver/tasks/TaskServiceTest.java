@@ -53,7 +53,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void save_whenUserDoesNotOwnContext_shouldNotSave() {
+    public void save_whenUserDoesNotOwnTask_shouldNotSave() {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
