@@ -180,7 +180,7 @@
 							<symlink>true</symlink>
 						</data>
 					</dataSet>
-					<deb>${project.build.directory}/deb/${project.artifactId}-java${openjdk.version}_all.deb</deb>
+					<deb>${project.build.directory}/deb/${project.artifactId}-${project.version}-java${openjdk.version}_all.deb</deb>
 					<verbose>true</verbose>
 				</configuration>
 				<executions>
