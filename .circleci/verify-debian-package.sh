@@ -16,7 +16,7 @@ FROM ubuntu:18.04
 RUN echo $timestamp
 
 RUN apt-get update -q
-RUN apt-get install -q -y openjdk-${java_version}-jre
+RUN apt-get install -q -y openjdk-${java_version}-jre-headless
 
 ADD target/deb/*deb /tmp
 EOF
