@@ -26,10 +26,6 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-
-        <createIndex tableName="USERS" indexName="USERS_USERNAME_IX">
-            <column name="USERNAME" />
-        </createIndex>
     </changeSet>
 
     <changeSet author="mthmulders" id="create-context-table">
@@ -50,6 +46,7 @@
                                  constraintName="CONTEXTS_USERS_FK"
                                  referencedTableName="USERS"
                                  referencedColumnNames="ID" />
+
         <createIndex tableName="CONTEXTS" indexName="CONTEXTS_USER_ID_IDX">
             <column name="USER_ID" />
             <column name="ID" />
