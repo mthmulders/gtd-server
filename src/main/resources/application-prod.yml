@@ -1,10 +1,11 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:orclpdb1
+    url: jdbc:oracle:thin:@gtddb_Medium?TNS_ADMIN=/home/ubuntu/dbwallet
     driverClassName: oracle.jdbc.driver.OracleDriver
     username: gtdapp
     password:
     platform: org.hibernate.dialect.OracleDialect
+    schema: gtdapp
 
 logging:
   level:
