@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@gtddb_Medium?TNS_ADMIN=/home/ubuntu/dbwallet
+    url: jdbc:oracle:thin:@gtddb_Medium?TNS_ADMIN=/etc/gtd-server/dbwallet
     driverClassName: oracle.jdbc.driver.OracleDriver
     username: gtdapp
     password:
