@@ -5,7 +5,8 @@ spring:
     username: gtdapp
     password:
     platform: org.hibernate.dialect.OracleDialect
-    schema: gtdapp
+    hikari:
+      schema: gtdapp
 
 logging:
   level:
