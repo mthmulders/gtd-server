@@ -47,6 +47,10 @@
                                  referencedTableName="USERS"
                                  referencedColumnNames="ID" />
 
+        <addUniqueConstraint columnNames="USER_ID,ID"
+                             constraintName="CONTEXTS_USER_ID_UC"
+                             tableName="CONTEXTS" />
+
         <createIndex tableName="CONTEXTS" indexName="CONTEXTS_USER_ID_IDX">
             <column name="USER_ID" />
             <column name="ID" />
