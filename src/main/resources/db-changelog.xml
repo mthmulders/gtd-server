@@ -10,7 +10,8 @@
     <property name="uuid_type" value="RAW(16)" dbms="oracle" />
     <property name="uuid_type" value="UUID" dbms="h2" />
     <!-- Then tell each database how to generate a UUID. -->
-    <property name="uuid_function" value="uid.uuid_generate_v4()" dbms="postgresql" />
+    <!--        For PostgreSQL, run CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; first. -->
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql" />
     <property name="uuid_function" value="sys_guid()" dbms="oracle" />
     <property name="uuid_function" value="random_uuid()" dbms="h2" />
 

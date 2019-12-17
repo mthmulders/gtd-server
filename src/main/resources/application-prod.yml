@@ -1,12 +1,9 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@gtddb_Medium?TNS_ADMIN=/etc/gtd-server/dbwallet
-    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:postgresql:gtdapp
+    driverClassName: org.postgresql.Driver
     username: gtdapp
-    password:
-    platform: org.hibernate.dialect.OracleDialect
-    hikari:
-      schema: gtdapp
+    password: foo
 
 logging:
   level:
