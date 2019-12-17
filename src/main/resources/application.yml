@@ -4,7 +4,6 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password:
-    platform: org.hibernate.dialect.H2Dialect
 
 logging:
   level:
