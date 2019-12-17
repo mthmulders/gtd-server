@@ -34,8 +34,7 @@ public class ContextsController {
         return ResponseEntity.status(CREATED).body(stored);
     }
 
-    @PostMapping
-    @RequestMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<Context> updateContext(@AuthenticationPrincipal final User user,
                                                  @PathVariable("id") final UUID id,
                                                  @RequestBody final Context context) {

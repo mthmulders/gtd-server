@@ -36,8 +36,7 @@ public class TasksController {
         return ResponseEntity.status(CREATED).body(storedTask);
     }
 
-    @PostMapping
-    @RequestMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<Task> updateTask(@AuthenticationPrincipal final User user,
                                            @PathVariable("id") final UUID id,
                                            @RequestBody final Task task) {
