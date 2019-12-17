@@ -52,7 +52,7 @@ public class PublicUsersControllerTest {
         assertThat(result, is(token));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = LoginFailedException.class)
     public void login_withInvalidCredentials_shouldThrowException() {
         // Arrange
         final String token = UUID.randomUUID().toString();

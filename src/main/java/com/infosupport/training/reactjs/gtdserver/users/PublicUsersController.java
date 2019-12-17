@@ -45,7 +45,7 @@ public class PublicUsersController {
                 })
                 .orElseThrow(() -> {
                     log.info("Authentication failure for user {}", username);
-                    return new RuntimeException("invalid login and/or password");
+                    return new LoginFailedException("invalid login and/or password");
                 });
     }
 }
