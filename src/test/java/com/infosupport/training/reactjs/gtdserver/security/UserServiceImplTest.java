@@ -24,14 +24,14 @@ public class UserServiceImplTest {
 
     private final UserServiceImpl service = new UserServiceImpl(eventPublisher, userRepository, encoder);
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UserCreationException.class)
     public void save_whenUserExists_shouldThrowException() {
         // Arrange
         final User user = Fixtures.createUser();
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         // Act
-        service.save(user);
+        service.create(user);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class UserServiceImplTest {
         when(encoder.encode(user.getPassword())).thenReturn("");
 
         // Act
-        service.save(user);
+        service.create(user);
 
         // Assert
         final ArgumentCaptor<UserRegisteredEvent> eventCaptor = ArgumentCaptor.forClass(UserRegisteredEvent.class);
@@ -63,7 +63,7 @@ public class UserServiceImplTest {
         when(userRepository.save(any())).thenReturn(user);
 
         // Act
-        service.save(user);
+        service.create(user);
 
         // Assert
         final ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);

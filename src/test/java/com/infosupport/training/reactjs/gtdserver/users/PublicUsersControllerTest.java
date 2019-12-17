@@ -33,7 +33,7 @@ public class PublicUsersControllerTest {
 
         // Assert
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        verify(users).save(userCaptor.capture());
+        verify(users).create(userCaptor.capture());
         final User storedUser = userCaptor.getValue();
         assertThat(storedUser.getUsername(), is(USERNAME));
         assertThat(storedUser.getPassword(), is(PASSWORD));

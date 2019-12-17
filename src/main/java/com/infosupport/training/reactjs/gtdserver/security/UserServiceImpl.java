@@ -20,10 +20,10 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public void save(final User user) {
+    public void create(final User user) {
         userRepository.findByUsername(user.getUsername()).ifPresent(existingUser -> {
             log.warn("Attempted to create user {} that already exists", existingUser.getUsername());
-            throw new RuntimeException("invalid login and/or password");
+            throw new UserCreationException("invalid login and/or password");
         });
 
         final String encodedPassword = encoder.encode(user.getPassword());

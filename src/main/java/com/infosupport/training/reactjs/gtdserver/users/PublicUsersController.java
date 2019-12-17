@@ -28,7 +28,7 @@ public class PublicUsersController {
                 .password(password)
                 .build();
 
-        users.save(user);
+        users.create(user);
         return login(username, password);
     }
 
