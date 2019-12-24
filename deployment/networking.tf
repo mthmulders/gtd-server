@@ -1,31 +1,31 @@
-resource "oci_core_vcn" "gtd-server" {
+resource "oci_core_vcn" "demo-server" {
   cidr_block     = "172.16.0.0/16"
   compartment_id = var.project_compartment_ocid
-  display_name   = "GTD Server"
+  display_name   = "Demo"
   dns_label      = "awesomesauce"
 }
 
-resource "oci_core_internet_gateway" "gtd-server" {
+resource "oci_core_internet_gateway" "demo-server" {
   compartment_id = var.project_compartment_ocid
-  display_name   = "GTD Server"
-  vcn_id         = oci_core_vcn.gtd-server.id
+  display_name   = "Demo"
+  vcn_id         = oci_core_vcn.demo-server.id
 }
 
-resource "oci_core_route_table" "gtd-server" {
+resource "oci_core_route_table" "demo-server" {
   compartment_id = var.project_compartment_ocid
-  vcn_id         = oci_core_vcn.gtd-server.id
-  display_name   = "GTD Server"
+  vcn_id         = oci_core_vcn.demo-server.id
+  display_name   = "Demo"
 
   route_rules {
     destination       = "0.0.0.0/0"
-    network_entity_id = oci_core_internet_gateway.gtd-server.id
+    network_entity_id = oci_core_internet_gateway.demo-server.id
   }
 }
 
-resource "oci_core_security_list" "gtd-server-incoming" {
-  display_name   = "Incoming traffic for gtd-server"
+resource "oci_core_security_list" "demo-server-incoming" {
+  display_name   = "Incoming traffic for demo-server"
   compartment_id = var.project_compartment_ocid
-  vcn_id         = oci_core_vcn.gtd-server.id
+  vcn_id         = oci_core_vcn.demo-server.id
 
   egress_security_rules {
     protocol    = "all"
@@ -89,15 +89,15 @@ resource "oci_core_security_list" "gtd-server-incoming" {
   }
 }
 
-resource "oci_core_subnet" "gtd-server" {
-  cidr_block     = oci_core_vcn.gtd-server.cidr_block
+resource "oci_core_subnet" "demo-server" {
+  cidr_block     = oci_core_vcn.demo-server.cidr_block
   compartment_id = var.project_compartment_ocid
-  vcn_id         = oci_core_vcn.gtd-server.id
-  route_table_id = oci_core_route_table.gtd-server.id
+  vcn_id         = oci_core_vcn.demo-server.id
+  route_table_id = oci_core_route_table.demo-server.id
 
-  display_name = "GTD Server"
-  dns_label    = "gtdserver"
+  display_name = "Demo"
+  dns_label    = "demos"
   security_list_ids = [
-    oci_core_security_list.gtd-server-incoming.id
+    oci_core_security_list.demo-server-incoming.id
   ]
 }

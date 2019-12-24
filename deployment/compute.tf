@@ -8,13 +8,13 @@ variable "image_ids" {
   }
 }
 
-resource "oci_core_instance" "gtd-server" {
+resource "oci_core_instance" "demo-server" {
   # availability_domain = "MoMM:EU-FRANKFURT-1-AD-1"
   availability_domain = "MoMM:EU-FRANKFURT-1-AD-2"
   compartment_id      = var.project_compartment_ocid
   # shape               = "VM.Standard.E2.1.Micro"
   shape               = "VM.Standard.E2.1"
-  display_name        = "GTD Server"
+  display_name        = "Demo Server"
 
   agent_config {
     is_monitoring_disabled = false
@@ -24,12 +24,12 @@ resource "oci_core_instance" "gtd-server" {
     assign_public_ip = true
     display_name     = "Primary VNIC"
     hostname_label   = "demo"
-    subnet_id        = oci_core_subnet.gtd-server.id
+    subnet_id        = oci_core_subnet.demo-server.id
   }
 
   metadata = {
     ssh_authorized_keys = var.ssh_public_key
-    #  user_data           = base64encode(file("./oci-init.sh"))
+    # user_data           = base64encode(file("./oci-init.sh"))
   }
 
   source_details {
@@ -38,6 +38,6 @@ resource "oci_core_instance" "gtd-server" {
   }
 }
 
-output "GTD-Server-Public-IP" {
-  value = [ oci_core_instance.gtd-server.public_ip ]
+output "Demo-Server-Public-IP" {
+  value = [ oci_core_instance.demo-server.public_ip ]
 }
