@@ -7,3 +7,4 @@ private_key_password     =
 region                   = 
 project_compartment_ocid = 
 ssh_public_key           = 
+ssh_port                 = 

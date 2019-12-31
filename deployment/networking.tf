@@ -63,8 +63,8 @@ resource "oci_core_security_list" "demo-server-incoming" {
     protocol = "6" # TCP
     source   = "0.0.0.0/0"
     tcp_options {
-      min = 22
-      max = 22
+      min = var.ssh_port
+      max = var.ssh_port
     }
   }
 

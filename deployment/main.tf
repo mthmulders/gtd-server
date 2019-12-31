@@ -14,6 +14,7 @@ variable "region" {}
 variable "project_compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "database_admin_password" {}
+variable "ssh_port" {}
 
 # Configure the Oracle Cloud Infrastructure provider
 provider "oci" {
