@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
+import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAndIs;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -84,5 +85,20 @@ public class ContextsServiceTest {
         // Assert
         assertThat(result, isPresent());
         result.ifPresent(storedContext -> assertThat(storedContext.getUserId(), is(user.getId())));
+    }
+
+    @Test
+    public void findByUserIdAndId_should() {
+        // Arrange
+        final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user).withId(randomUUID());
+        when(repository.findByUserIdAndId(user.getId(), context.getId())).thenReturn(Optional.of(context));
+
+        // Act
+        final Optional<Context> result = service.findByUserIdAndId(user.getId(), context.getId());
+
+        // Assert
+        assertThat(result, isPresentAndIs(context));
+
     }
 }

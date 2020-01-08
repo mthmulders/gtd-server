@@ -20,8 +20,17 @@ public interface TaskRepository extends CrudRepository<Task, UUID> {
     /**
      * Find an existing context for an user.
      * @param userId The ID of the user.
-     * @param id The ID of the context.
+     * @param contextId The ID of the context.
      * @return The context, if it exists for the current user.
+     */
+    @Query("select id, context_id, user_id, text from Tasks t where t.user_id = :userId and t.context_id = :contextId")
+    Collection<Task> findByUserIdAndContextId(@Param("userId") UUID userId, @Param("contextId") UUID contextId);
+
+    /**
+     * Find an existing task for an user.
+     * @param userId The ID of the user.
+     * @param id The ID of the task.
+     * @return The task, if it exists for the current user.
      */
     @Query("select id, context_id, user_id, text from Tasks t where t.user_id = :userId and t.id = :id")
     Optional<Task> findByUserIdAndId(@Param("userId") UUID userId, @Param("id") UUID id);

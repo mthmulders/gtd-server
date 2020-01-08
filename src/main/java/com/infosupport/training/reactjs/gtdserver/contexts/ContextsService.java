@@ -19,6 +19,10 @@ public class ContextsService {
         return repository.findByUserId(userId);
     }
 
+    public Optional<Context> findByUserIdAndId(final UUID userId, final UUID contextId) {
+        return repository.findByUserIdAndId(userId, contextId);
+    }
+
     public Context save(final User user, final Context context) {
         return repository.save(context.withUserId(user.getId()));
     }

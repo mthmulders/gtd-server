@@ -1,17 +1,13 @@
 package com.infosupport.training.reactjs.gtdserver.integration;
 
-import com.infosupport.training.reactjs.gtdserver.contexts.Context;
 import com.infosupport.training.reactjs.gtdserver.tasks.Task;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
 
 public class TasksIT extends AbstractIT {
     @Test

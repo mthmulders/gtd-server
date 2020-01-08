@@ -67,3 +67,24 @@ curl -v -H "Authorization: Bearer $TOKEN" \
         -d "{ \"name\": \"Example\" }" \
      http://localhost:8080/contexts
 ```
+
+### 5. Working with your tasks
+Pre-conditions
+
+*  the authentication token is stored in an environment variable `TOKEN`
+
+#### a. Creating a task in your context
+
+```sh
+curl -v -H "Authorization: Bearer $TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "{ \"text\": \"Example\", \"context_id\": \"{context-id}\"  }" \
+    http://localhost:8080/tasks/
+```
+
+#### b. Getting all tasks in your context
+
+```sh
+curl -v -H "Authorization: Bearer $TOKEN" \
+    http://localhost:8080/contexts/{context-id}/tasks
+```

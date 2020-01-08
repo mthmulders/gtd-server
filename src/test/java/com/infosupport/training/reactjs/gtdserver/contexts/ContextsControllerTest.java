@@ -2,17 +2,21 @@ package com.infosupport.training.reactjs.gtdserver.contexts;
 
 import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import com.infosupport.training.reactjs.gtdserver.security.User;
+import com.infosupport.training.reactjs.gtdserver.tasks.Task;
+import com.infosupport.training.reactjs.gtdserver.tasks.TaskService;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Collections.singleton;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -22,17 +26,18 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public class ContextsControllerTest {
-    private final ContextsService service = mock(ContextsService.class);
-    private final ContextsController controller = new ContextsController(service);
+    private final ContextsService contextsService = mock(ContextsService.class);
+    private final TaskService taskService = mock(TaskService.class);
+    private final ContextsController controller = new ContextsController(contextsService, taskService);
 
     @Test
     public void getAllContexts_shouldGetContextsForUser() {
         // Arrange
         final User user = Fixtures.createUser();
-        final Collection<Context> contexts = Collections.singleton(
+        final Collection<Context> contexts = singleton(
                 Fixtures.createContextForUser(user)
         );
-        when(service.findByUserId(user.getId())).thenReturn(contexts);
+        when(contextsService.findByUserId(user.getId())).thenReturn(contexts);
 
         // Act
         final Collection<Context> result = controller.getAllContexts(user);
@@ -42,11 +47,30 @@ public class ContextsControllerTest {
     }
 
     @Test
+    public void getAllTasksForContext_shouldFindTasksForUserAndContext() {
+        // Arrange
+        final User user = Fixtures.createUser();
+        final Context context = Fixtures.createContextForUser(user);
+        final Task task = Fixtures.createTaskForUserAndContext(user, context);
+        when(contextsService.findByUserIdAndId(user.getId(), context.getId())).thenReturn(Optional.of(context));
+        when(taskService.findTasksByUserAndContext(user.getId(), context.getId())).thenReturn(singleton(task));
+
+        // Act
+        final ResponseEntity<Collection<Task>> result = controller.getAllTasksForContext(user, context.getId());
+
+        // Assert
+        assertThat(result.getStatusCode(), is(OK));
+        final Collection<Task> tasks = result.getBody();
+        assertThat(tasks, hasSize(1));
+        assertThat(tasks, containsInAnyOrder(task));
+    }
+
+    @Test
     public void createContext_shouldGenerateId() {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
-        when(service.save(any(), any()))
+        when(contextsService.save(any(), any()))
                 .then((invocation) -> invocation.getArgument(1, Context.class).withId(UUID.randomUUID()));
 
         // Act
@@ -63,7 +87,7 @@ public class ContextsControllerTest {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
-        when(service.save(any(), any())).then((invocation) -> invocation.getArgument(1));
+        when(contextsService.save(any(), any())).then((invocation) -> invocation.getArgument(1));
 
         // Act
         final ResponseEntity<Context> response = controller.createContext(user, context);
@@ -79,7 +103,7 @@ public class ContextsControllerTest {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
-        when(service.save(any(), any(), any())).then((invocation) -> Optional.of(invocation.getArgument(2)));
+        when(contextsService.save(any(), any(), any())).then((invocation) -> Optional.of(invocation.getArgument(2)));
 
         // Act
         final ResponseEntity<Context> response = controller.updateContext(user, context.getId(), context);
@@ -95,7 +119,7 @@ public class ContextsControllerTest {
         // Arrange
         final User user = Fixtures.createUser();
         final Context context = Fixtures.createContextForUser(user);
-        when(service.save(any(), any(), any())).then((invocation) -> Optional.empty());
+        when(contextsService.save(any(), any(), any())).then((invocation) -> Optional.empty());
 
         // Act
         final ResponseEntity<Context> response = controller.updateContext(user, context.getId(), context);
