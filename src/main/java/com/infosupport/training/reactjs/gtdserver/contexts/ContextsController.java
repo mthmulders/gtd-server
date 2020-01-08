@@ -37,8 +37,7 @@ public class ContextsController {
         return ResponseEntity.status(CREATED).body(stored);
     }
 
-    @RequestMapping("/{contextId}/tasks")
-    @GetMapping
+    @GetMapping("/{contextId}/tasks")
     public ResponseEntity<Collection<Task>> getAllTasksForContext(@AuthenticationPrincipal final User user,
                                                                   @PathVariable("contextId") final UUID contextId) {
         return contextsService.findByUserIdAndId(user.getId(), contextId)
