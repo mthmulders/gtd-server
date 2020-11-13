@@ -3,11 +3,11 @@ package com.infosupport.training.reactjs.gtdserver.contexts;
 import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import com.infosupport.training.reactjs.gtdserver.security.UserRegisteredEvent;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

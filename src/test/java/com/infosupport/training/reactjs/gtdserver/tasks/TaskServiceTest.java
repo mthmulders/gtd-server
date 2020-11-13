@@ -4,7 +4,7 @@ import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import com.infosupport.training.reactjs.gtdserver.contexts.Context;
 import com.infosupport.training.reactjs.gtdserver.contexts.ContextRepository;
 import com.infosupport.training.reactjs.gtdserver.security.User;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import static java.util.Collections.singleton;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;

@@ -2,7 +2,7 @@ package com.infosupport.training.reactjs.gtdserver.contexts;
 
 import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import com.infosupport.training.reactjs.gtdserver.security.User;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -13,7 +13,7 @@ import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAndIs;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;

@@ -1,7 +1,7 @@
 package com.infosupport.training.reactjs.gtdserver.security;
 
 import com.infosupport.training.reactjs.gtdserver.Fixtures;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +11,8 @@ import java.util.Optional;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAndIs;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -24,14 +25,14 @@ public class UserServiceImplTest {
 
     private final UserServiceImpl service = new UserServiceImpl(eventPublisher, userRepository, encoder);
 
-    @Test(expected = UserCreationException.class)
+    @Test
     public void save_whenUserExists_shouldThrowException() {
         // Arrange
         final User user = Fixtures.createUser();
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
         // Act
-        service.create(user);
+        assertThrows(UserCreationException.class, () -> service.create(user));
     }
 
     @Test
