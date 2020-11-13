@@ -1,7 +1,7 @@
 package com.infosupport.training.reactjs.gtdserver.integration;
 
 import com.infosupport.training.reactjs.gtdserver.tasks.Task;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 

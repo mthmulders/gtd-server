@@ -1,7 +1,7 @@
 package com.infosupport.training.reactjs.gtdserver.security;
 
 import com.infosupport.training.reactjs.gtdserver.Fixtures;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAndIs;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.anyString;

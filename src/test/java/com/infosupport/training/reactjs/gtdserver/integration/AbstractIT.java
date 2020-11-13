@@ -1,19 +1,21 @@
 package com.infosupport.training.reactjs.gtdserver.integration;
 
+import com.infosupport.training.reactjs.gtdserver.GtdServerApplication;
 import io.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest(
+        classes = { GtdServerApplication.class },
+        properties = { "environment = test" },
+        webEnvironment = RANDOM_PORT
+)
 @Slf4j
 public abstract class AbstractIT {
     @LocalServerPort
@@ -32,7 +34,7 @@ public abstract class AbstractIT {
                 .getBody().asString();
     }
 
-    @Before
+    @BeforeEach
     public void configurePort() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.port = localPort;

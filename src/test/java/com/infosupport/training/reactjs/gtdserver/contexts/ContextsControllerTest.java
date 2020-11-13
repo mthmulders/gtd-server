@@ -4,7 +4,7 @@ import com.infosupport.training.reactjs.gtdserver.Fixtures;
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import com.infosupport.training.reactjs.gtdserver.tasks.Task;
 import com.infosupport.training.reactjs.gtdserver.tasks.TaskService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

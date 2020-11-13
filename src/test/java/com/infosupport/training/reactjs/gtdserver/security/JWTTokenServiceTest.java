@@ -1,6 +1,6 @@
 package com.infosupport.training.reactjs.gtdserver.security;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JWTTokenServiceTest {
     private static final String ISSUER = "test";

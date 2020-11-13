@@ -3,14 +3,15 @@ package com.infosupport.training.reactjs.gtdserver.users;
 import com.infosupport.training.reactjs.gtdserver.security.User;
 import com.infosupport.training.reactjs.gtdserver.security.UserAuthenticationService;
 import com.infosupport.training.reactjs.gtdserver.security.UserService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,13 +55,13 @@ public class PublicUsersControllerTest {
         assertThat(result, is(token));
     }
 
-    @Test(expected = LoginFailedException.class)
+    @Test
     public void login_withInvalidCredentials_shouldThrowException() {
         // Arrange
         final String token = UUID.randomUUID().toString();
         when(authentication.login(USERNAME, PASSWORD)).thenReturn(Optional.empty());
 
         // Act
-        controller.login(USERNAME, PASSWORD);
+        assertThrows(LoginFailedException.class, () -> controller.login(USERNAME, PASSWORD));
     }
 }

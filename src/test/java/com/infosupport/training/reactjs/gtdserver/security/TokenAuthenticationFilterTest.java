@@ -1,7 +1,7 @@
 package com.infosupport.training.reactjs.gtdserver.security;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,7 +22,7 @@ public class TokenAuthenticationFilterTest {
 
     private final TokenAuthenticationFilter filter = new TokenAuthenticationFilter((request) -> true);
 
-    @Before
+    @BeforeEach
     public void injectAuthenticationManager() {
         this.filter.setAuthenticationManager(authenticationManager);
     }
@@ -41,16 +42,17 @@ public class TokenAuthenticationFilterTest {
         assertThat(result, is(authentication));
     }
 
-    @Test(expected = BadCredentialsException.class)
+    @Test
     public void attemptAuthentication_withoutValidAuthorizationHeader_shouldReturnAuthentication() {
         // Arrange
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
         // Act
-        filter.attemptAuthentication(request, mock(HttpServletResponse.class));
+        assertThrows(BadCredentialsException.class,
+                () -> filter.attemptAuthentication(request, mock(HttpServletResponse.class)));
     }
 
-    @Test(expected = UsernameNotFoundException.class)
+    @Test
     public void attemptAuthentication_withInvalidAuthorizationHeader_shouldReturnAuthentication() {
         // Arrange
         when(authenticationManager.authenticate(any(Authentication.class))).thenThrow(UsernameNotFoundException.class);
@@ -58,6 +60,7 @@ public class TokenAuthenticationFilterTest {
         when(request.getHeader("Authorization")).thenReturn("Bearer XXX");
 
         // Act
-        filter.attemptAuthentication(request, mock(HttpServletResponse.class));
+        assertThrows(UsernameNotFoundException.class,
+                () -> filter.attemptAuthentication(request, mock(HttpServletResponse.class)));
     }
 }
